@@ -25,7 +25,7 @@ const ReverseGeoCoder = props => {
 
   const fetchAddress = () => {
     fetch(
-      `https://api.opencagedata.com/geocode/v1/json?q=${props.data.latitude}+${props.data.longitude}&pretty=1&key=9c0c0cdb0a3c4c6fa4130507a195cc5c`,
+      `https://api.opencagedata.com/geocode/v1/json?q=${props.data.latitude}+${props.data.longitude}&pretty=1&key=.`,
     )
       .then(res => res.json())
       .then(result => {
