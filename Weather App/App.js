@@ -4,6 +4,8 @@ import Swiper from 'react-native-swiper';
 import ForecastScroll from './Components/ForecastScroll';
 import ForecastList from './Components/ForecastList/ForecastList';
 import ReverseGeoCoder from './Components/AdressInfo';
+
+// TAGS OR COMPONENTS
 import {
   View,
   Text,
@@ -15,6 +17,7 @@ import {
   StyleSheet,
 } from 'react-native';
 
+// API DETAILS
 const api = {
   key: '',
   base: 'https://api.openweathermap.org/data/2.5/',
@@ -30,26 +33,33 @@ const App = () => {
   const latitude = '39.925533';
   const longitude = '32.866287';
 
+  // Getting weather for location
   useEffect(() => {
     getWeatherForecast();
   }, [locationAvail]);
-
+  
+  // Getting permission for IOS
   const hasPermissionIOS = async () => {
+    // Settings changes
     const openSetting = () => {
       Linking.openSettings().catch(() => {
         Alert.alert('Unable to open settings');
       });
     };
-    const status = await Geolocation.requestAuthorization('whenInUse');
+    
+    const status = await Geolocation.requestAuthorization('whenInUse'); // Değişken tanımlayıp useState ile set edebilirsin (yukarıda tanımlanacak)
 
+    // Location izni verilirse
     if (status === 'granted') {
       return true;
     }
 
+    // Location isteği kabul edilmez ise
     if (status === 'denied') {
       Alert.alert('Location permission denied');
     }
 
+    // Location açık değil ise 
     if (status === 'disabled') {
       Alert.alert(
         `Turn on Location Services to allow "${appConfig.displayName}" to determine your location.`,
@@ -64,6 +74,7 @@ const App = () => {
     return false;
   };
 
+  // Location Permission for IOS
   const hasLocationPermission = async () => {
     if (Platform.OS === 'ios') {
       const hasPermission = await hasPermissionIOS();
@@ -78,7 +89,7 @@ const App = () => {
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
     );
 
-    if (hasPermission) {
+    if (hasPermission) { // bu haspermission kısmını belki kısaltabiliriz emin değili fazla ifli bir durum var
       return true;
     }
 
@@ -95,7 +106,7 @@ const App = () => {
         'Location permission denied by user.',
         ToastAndroid.LONG,
       );
-    } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+    } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) { // Diğer Ifleri de els if ile yapıp bıraz daha kısaltabilirsin
       ToastAndroid.show(
         'Location permission revoked by user.',
         ToastAndroid.LONG,
@@ -105,8 +116,9 @@ const App = () => {
     return false;
   };
 
+  // Getting Location
   const getLocation = async () => {
-    const hasPermission = await hasLocationPermission();
+    const hasPermission = await hasLocationPermission(); // haspermission kısmınıda değişken olarak tanımlayablirsin gibi duruyor(bakarız ona)
 
     if (!hasPermission) {
       return;
@@ -116,12 +128,12 @@ const App = () => {
       position => {
         setLocation(position);
         setlocationAvail(true);
-        console.log(position);
+        console.log(position); // kaldır bunu
       },
       error => {
-        Alert.alert(`Code ${error.code}`, error.message);
+        Alert.alert(`Code ${error.code}`, error.message); // bu belki durabilir kullanılıyorsa
         setLocation(null);
-        console.log(error);
+        console.log(error); // kaldır bunu gerekli ise dursun ama bence kaldır
       },
       {
         accuracy: {
@@ -141,7 +153,7 @@ const App = () => {
 
   const getWeatherForecast = async () => {
     if (!locationAvail) {
-      await getLocation();
+      await getLocation(); 
     }
 
     if (!locationAvail) {
@@ -154,7 +166,7 @@ const App = () => {
       .then(res => res.json())
       .then(result => {
         setWeather(result);
-        console.log(result);
+        console.log(result); // kaldır bunu
         setLoading(false);
       })
       .catch(error => {
@@ -163,6 +175,7 @@ const App = () => {
       });
   };
 
+  // date builder for location 
   const dateBuilder = utcTime => {
     let time = ' ';
     var d = new Date(0);
@@ -172,12 +185,16 @@ const App = () => {
     return time;
   };
 
+  // Weather background image or gif 
   const weatherBackground = () => {
     let src = '';
 
+    // Belki biraz daha okunurluğunu arttırabiliriz
+    // Bu if else kısımları için bir yöntem bulabiliriz
+    // Hatta burada çok fazla fonksiyon olduğu için bunları ayırabiliriz belki
     if (weather.current.weather[0].main == 'Snow') {
       src = require('./assets/snow.gif');
-    } else if (
+    } else if ( // burayı net kısaltabilceğimiz bir yöntem vardır 3 değişken ile uğraşmadan
       weather.current.weather[0].main == 'Rain' ||
       weather.current.weather[0].main == 'Thunderstorm' ||
       weather.current.weather[0].main == 'Drizzle'
@@ -254,7 +271,8 @@ const App = () => {
       <ImageBackground
         source={weatherBackground()}
         resizeMode="cover"
-        style={styles.image}>
+        style={styles.image}
+      >
         <InnerView />
       </ImageBackground>
     </View>
@@ -265,7 +283,7 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: 'white', // #fff or #ffffff
   },
   container: {
     flex: 1,
@@ -276,10 +294,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    color: 'white',
+    color: 'white', // #fff or #ffffff
     fontSize: 30,
     fontFamily: 'Iowan Old Style',
-    fontWeight: 'bold',
+    fontWeight: 'bold', // 600 (optional)
   },
   viewInsideaView: {
     backgroundColor: 'rgba(52, 52, 52, 0.5)',
@@ -287,7 +305,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '80%',
     height: '85%',
-    borderColor: 'rgb(0, 0, 0)',
+    borderColor: 'rgb(0, 0, 0)', // #000 or #000000
     borderWidth: 0.5,
     borderRadius: 10,
   },
