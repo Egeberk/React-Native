@@ -1,18 +1,30 @@
 import React from 'react';
-import { View, Text, ScrollView, SafeAreaView, Image,ImageBackground,StyleSheet } from 'react-native';
+import { 
+    View, 
+    Text, 
+    ScrollView, 
+    SafeAreaView, 
+    Image,
+    ImageBackground,
+    StyleSheet 
+} from 'react-native';
 import ForecastData from './ForecastData';
 
 const ForecastScroll = (props) => {
     return(
-        <View style= {styles2.top}>
-            <ScrollView horizontal={true} contentContainerStyle={{justifyContent : 'center', alignItems: 'center' }}>
-            {((props.data).slice(0,12)).map((item,index)=>(
-              
-              <ForecastData item = {item} key = {index} index= {index} />
-              
-              )
-                   
-          )}
+        <View style={ styles2.top }>
+            <ScrollView 
+                horizontal={true} 
+                contentContainerStyle={{
+                   justifyContent : 'center', 
+                   alignItems: 'center' 
+                }}
+            >
+            {
+                ((props.data).slice(0,12)).map(( item, index ) => (
+                    <ForecastData item={item} key={index} index={index} />
+                ))
+            }
             </ScrollView>
           </View>
     )
@@ -33,9 +45,9 @@ const styles2 = StyleSheet.create({
       justifyContent: "center",
       width: "100%",
       borderBottomWidth: 1,
-      borderTopColor: 'white',
+      borderTopColor: '#fff',
       borderTopWidth: 1,
-      borderBottomColor: 'white',
+      borderBottomColor: '#fff',
       margin: 15
     },
     middle: {
