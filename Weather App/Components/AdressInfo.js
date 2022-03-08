@@ -30,7 +30,6 @@ const ReverseGeoCoder = props => {
       .then(res => res.json())
       .then(result => {
         setAddress(result);
-        console.log(result);
         setLoading(false);
       })
       .catch(error => {
@@ -69,10 +68,10 @@ const ReverseGeoCoder = props => {
 
 const styles = StyleSheet.create({
   text: {
-    color: 'white',
+    color: '#fff',
     fontSize: 25,
     fontFamily: 'Iowan Old Style',
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
 });
 
