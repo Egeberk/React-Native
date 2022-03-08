@@ -128,12 +128,10 @@ const App = () => {
       position => {
         setLocation(position);
         setlocationAvail(true);
-        console.log(position); // kaldır bunu
       },
       error => {
         Alert.alert(`Code ${error.code}`, error.message); // bu belki durabilir kullanılıyorsa
         setLocation(null);
-        console.log(error); // kaldır bunu gerekli ise dursun ama bence kaldır
       },
       {
         accuracy: {
@@ -166,7 +164,6 @@ const App = () => {
       .then(res => res.json())
       .then(result => {
         setWeather(result);
-        console.log(result); // kaldır bunu
         setLoading(false);
       })
       .catch(error => {
@@ -283,7 +280,7 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     width: '100%',
-    backgroundColor: 'white', // #fff or #ffffff
+    backgroundColor: '#ffffff',
   },
   container: {
     flex: 1,
@@ -294,10 +291,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    color: 'white', // #fff or #ffffff
+    color: '#ffffff',
     fontSize: 30,
     fontFamily: 'Iowan Old Style',
-    fontWeight: 'bold', // 600 (optional)
+    fontWeight: '600',
   },
   viewInsideaView: {
     backgroundColor: 'rgba(52, 52, 52, 0.5)',
@@ -305,7 +302,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '80%',
     height: '85%',
-    borderColor: 'rgb(0, 0, 0)', // #000 or #000000
+    borderColor: '#000000',
     borderWidth: 0.5,
     borderRadius: 10,
   },
